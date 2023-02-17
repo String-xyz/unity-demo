@@ -6,46 +6,9 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Linq;
 using Proyecto26;
+using StringSDK;
+using RSG;
 
-// JSON Serializations
-[Serializable]
-public class QuoteRequest
-{
-    public string userAddress;
-    public int chainId;
-    public string contractAddress;
-    public string contractFunction;
-    public string contractReturn;
-    public string[] contractParameters;
-    public string txValue;
-    public string gasLimit;
-}
-
-[Serializable]
-public class TransactionRequest : QuoteRequest
-{
-    public int timestamp;
-    public float baseUSD;
-    public float gasUSD;
-    public float tokenUSD;
-    public float serviceUSD;
-    public float totalUSD;
-    public string signature;
-    public string cardToken;
-}
-
-[Serializable]
-public class TransactionResponse
-{
-    public string txID;
-    public string txUrl;
-}
-
-[Serializable]
-public class LoginPayload
-{
-    public string nonce;
-}
 
 public class GameLogicBehavior : MonoBehaviour
 {
@@ -94,6 +57,9 @@ public class GameLogicBehavior : MonoBehaviour
         // AuthPlayer response will be updated tomorrow, we can get the decrypt key then.
         playerWallet = auth.wallet.address;
         //playerDecryptKey = auth.walletDecryptKey;
+
+        // Initialize the string SDK with our API key
+        StringXYZ.ApiKey = "str.384be86c18d64b7783c2c4c9132bbd89";
     }
 
     // Update is called once per frame
@@ -102,21 +68,13 @@ public class GameLogicBehavior : MonoBehaviour
         
     }
 
-    // Tomorrow this can be updated to fully log in, by requesting the payload, signing it and then storing the JWT
-
-    //async UniTaskVoid GetStringLogin(string walletAddr)
-    public void GetStringLogin()
+    public async void LoginPlayerToString()
     {
-        // We might pass this in instead
-        string walletAddr = playerWallet;
+        StringSDK.LoginPayload payloadToSign = await StringXYZ.GetStringLogin(playerWallet);
+        Debug.Log($"Wallet Login Payload: {payloadToSign.nonce}");
 
-        // Set API key
-        RestClient.DefaultRequestHeaders["X-Api-Key"] = "str.384be86c18d64b7783c2c4c9132bbd89";
-
-        string base_url = "http://localhost:5555";
-        RestClient.Get<LoginPayload>($"{base_url}/login?walletAddress={walletAddr}").Then(response =>
-        {
-            Debug.Log($"Wallet Login Payload: {response.nonce}");
-        });
+        //string signedPayload = Metafab.GenerateSignature(..., payloadToSign);
+        //stringSDK.Login(signedPayload);
     }
+
 }
