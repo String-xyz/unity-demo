@@ -12,6 +12,7 @@ public class GameLogicBehavior : MonoBehaviour
     // These will be passed into our String package
     private string playerWallet;
     private string playerDecryptKey;
+    private string stringPlayerID;
 
     // Start is called before the first frame update
     async UniTaskVoid Start()
@@ -56,7 +57,7 @@ public class GameLogicBehavior : MonoBehaviour
         //playerDecryptKey = auth.walletDecryptKey;
 
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.384be86c18d64b7783c2c4c9132bbd89";
+        StringXYZ.ApiKey = "str.1675dac185674375a69b7fabcd3cabc1";
     }
 
     // Update is called once per frame
@@ -67,11 +68,32 @@ public class GameLogicBehavior : MonoBehaviour
 
     public async void LoginPlayerToString()
     {
-        LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
+        //LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
+        //Debug.Log($"Wallet Login Payload: {payloadToSign.nonce}");
+
+        // string signedPayload = await Metafab.GenerateSignature(..., payloadToSign);
+        // LoginResponse credentials = await StringXYZ.Login(signedPayload);
+        // StringXYZ.Authorization = credentials.authToken.token;
+        // stringPlayerID = credentials.user.id;
+
+        // TESTING
+        StringXYZ.ApiKey = "str.1675dac185674375a69b7fabcd3cabc1";
+        LoginPayload payloadToSign = await StringXYZ.RequestLogin("0x44A4b9E2A69d86BA382a511f845CbF2E31286770");
         Debug.Log($"Wallet Login Payload: {payloadToSign.nonce}");
 
-        //string signedPayload = Metafab.GenerateSignature(..., payloadToSign);
-        //stringSDK.Login(signedPayload);
+        Fingerprint fingerprint = new Fingerprint();
+        fingerprint.requestId = "1671054875232.EcrKjS";
+        fingerprint.visitorId = "dle6eqRHxjPEj4H3WLoC";
+
+        LoginRequest login = new LoginRequest();
+        login.nonce = "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogWjBUVlZVUHNOVDNleGcwZFJSM2pOdDlybGRCS0c4QjFEYjQ2cVF6MGowdHhqdzh1WU1SNlpmaWxlcmV0anZsVnBTekhLdUxveC9yVzNhM25ra0hqZENQdTZXQzVQeEtsNGxMUmJxaldEV1YwWkFXbFdveDBJc3FNZE15Qkw1WT0=";
+        login.signature = "0xba89b5ef3ee5f2190940f3e9ca4767b161dcc833dfade27f1fdafbf1527c1e711df8b8a140a4c65a2b8e4a1c40aee11ca17f7c60c648092fa303c9fd00faa8dc00";
+        login.fingerprint = fingerprint;
+        //login.fingerprint.requestId = "1671054875232.EcrKjS";
+        //login.fingerprint.visitorId = "dle6eqRHxjPEj4H3WLoC";
+
+        var response = await StringXYZ.Login(login);
+        Debug.Log($"Bad login response = {response}");
     }
 
 }

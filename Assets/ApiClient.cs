@@ -5,7 +5,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace MetafabSdk
+namespace StringSDK
 {
 	/// <summary>
 	/// Provides an interface to an http rest api

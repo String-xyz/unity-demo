@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MetafabSdk;
+//using MetafabSdk;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using System;
@@ -46,7 +46,18 @@ namespace StringSDK
 
         public static async UniTask<LoginResponse> Login(LoginRequest loginRequest, CancellationToken token = default)
         {
-            return await apiClient.Post<LoginResponse>($"/login/sign", loginRequest);
+            try
+            {
+                return await apiClient.Post<LoginResponse>($"/login/sign", loginRequest);
+            }
+            catch // (Exception e)
+            {
+                // Unsure how to check for 400 Bad response without parsing Exception string
+                // Skipping for now
+                // TODO: Parse exception for status code 400 before Creating user
+                // If the status is not 400, throw error up the stack
+                return await CreateUser(loginRequest);
+            }
         }
 
         public static async UniTask<LoginResponse> CreateUser(LoginRequest loginRequest, CancellationToken token = default)
