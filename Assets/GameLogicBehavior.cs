@@ -67,7 +67,7 @@ public class GameLogicBehavior : MonoBehaviour
 
     public async void LoginPlayerToString()
     {
-        StringSDK.LoginPayload payloadToSign = await StringXYZ.GetStringLogin(playerWallet);
+        LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
         Debug.Log($"Wallet Login Payload: {payloadToSign.nonce}");
 
         //string signedPayload = Metafab.GenerateSignature(..., payloadToSign);

@@ -16,30 +16,74 @@ namespace StringSDK
 {
     public static class StringXYZ
     {
-        static string apiKey;
+        // API Client
         static ApiClient apiClient;
 
+        // Headers
         public static string ApiKey
         {
             get => apiClient.headers.ContainsKey("X-Api-Key") ? apiClient.headers["X-Api-Key"] : null;
             set => apiClient.headers["X-Api-Key"] = value;
         }
 
+        public static string Authorization
+        {
+            get => apiClient.headers.ContainsKey("Authorization") ? apiClient.headers["Authorization"] : null;
+            set => apiClient.headers["Authorization"] = value;
+        }
+
+        // Constructor
         static StringXYZ()
         {
             apiClient = new ApiClient(Constants.api_base_url);
         }
 
-        public static async UniTask<LoginPayload> GetStringLogin(string walletAddr, CancellationToken token = default)
+        // Methods
+        public static async UniTask<LoginPayload> RequestLogin(string walletAddr, CancellationToken token = default)
         {
             return await apiClient.Get<LoginPayload>($"/login?walletAddress={walletAddr}");
         }
 
-        public static async UniTask<LoginResponse> StringLogin(LoginRequest loginRequest, CancellationToken token = default)
+        public static async UniTask<LoginResponse> Login(LoginRequest loginRequest, CancellationToken token = default)
         {
-            //return await apiClient.Get<LoginPayload>($"/login?walletAddress={walletAddr}");
             return await apiClient.Post<LoginResponse>($"/login/sign", loginRequest);
         }
+
+        public static async UniTask<LoginResponse> CreateUser(LoginRequest loginRequest, CancellationToken token = default)
+        {
+            return await apiClient.Post<LoginResponse>($"/users", loginRequest);
+        }
+
+        public static async UniTask<HttpResponse> RequestEmailAuth(string emailAddr, string userId, CancellationToken token = default)
+        {
+            return await apiClient.Get($"/users/{userId}/verify-email?email={emailAddr}");
+        }
+
+        public static async UniTask<HttpResponse> Logout(CancellationToken token = default)
+        {
+            return await apiClient.Post<HttpResponse>($"/login/logout");
+        }
+
+        public static async UniTask<User> SetUserName(UserNameRequest userNameRequest, string userId, CancellationToken token = default)
+        {
+            return await apiClient.Put<User>($"/users/{userId}", userNameRequest);
+        }
+
+        public static async UniTask<UserStatusResponse> GetUserStatus(string userId, CancellationToken token = default)
+        {
+            return await apiClient.Put<UserStatusResponse>($"/users/{userId}/status");
+        }
+
+        public static async UniTask<TransactionRequest> Quote(QuoteRequest quoteRequest, CancellationToken token = default)
+        {
+            return await apiClient.Post<TransactionRequest>($"/quotes", quoteRequest);
+        }
+
+        public static async UniTask<TransactionResponse> Transact(TransactionRequest transactionRequest, CancellationToken token = default)
+        {
+            return await apiClient.Post<TransactionResponse>($"/transactions", transactionRequest);
+        }
+        // More
     }
 
 
@@ -132,8 +176,23 @@ namespace StringSDK
         public string[] tags;
         public string firstName;
         public string middleName;
+        public string lastName;
     }
 
+    [Serializable]
+    public class UserNameRequest
+    {
+        public string walletAddress;
+        public string firstName;
+        public string middleName;
+        public string lastName;
+    }
+
+    [Serializable]
+    public class UserStatusResponse
+    {
+        public string status;
+    }
 
 }
 
