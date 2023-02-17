@@ -6,8 +6,6 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using System;
 using System.Linq;
-using Proyecto26;
-using RSG;
 
 public static class Constants
 {
@@ -35,6 +33,12 @@ namespace StringSDK
         public static async UniTask<LoginPayload> GetStringLogin(string walletAddr, CancellationToken token = default)
         {
             return await apiClient.Get<LoginPayload>($"/login?walletAddress={walletAddr}");
+        }
+
+        public static async UniTask<LoginResponse> StringLogin(LoginRequest loginRequest, CancellationToken token = default)
+        {
+            //return await apiClient.Get<LoginPayload>($"/login?walletAddress={walletAddr}");
+            return await apiClient.Post<LoginResponse>($"/login/sign", loginRequest);
         }
     }
 
@@ -78,5 +82,58 @@ namespace StringSDK
     {
         public string nonce;
     }
+
+    [Serializable]
+    public class LoginRequest
+    {
+        public string nonce;
+        public string signature;
+        public Fingerprint fingerprint;
+    }
+
+    [Serializable]
+    public class Fingerprint
+    {
+        public string visitorId;
+        public string requestId;
+    }
+
+    [Serializable]
+    public class LoginResponse
+    {
+        public AuthToken authToken;
+        public User user;
+    }
+
+    [Serializable]
+    public class AuthToken
+    {
+        public string expAt;
+        public string issuedAt;
+        public string token;
+        public RefreshToken refreshToken;
+    }
+
+    [Serializable]
+    public class RefreshToken
+    {
+        public string token;
+        public string expAt;
+    }
+
+    [Serializable]
+    public class User
+    {
+        public string id;
+        public string createdAt;
+        public string updatedAt;
+        public string type;
+        public string status;
+        public string[] tags;
+        public string firstName;
+        public string middleName;
+    }
+
+
 }
 

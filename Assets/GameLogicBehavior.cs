@@ -5,10 +5,7 @@ using MetafabSdk;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Linq;
-using Proyecto26;
 using StringSDK;
-using RSG;
-
 
 public class GameLogicBehavior : MonoBehaviour
 {
