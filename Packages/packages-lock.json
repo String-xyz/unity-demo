@@ -14,22 +14,6 @@
       "dependencies": {},
       "hash": "85e1e1b34dec1f9d7c67588d83dba17343858f8a"
     },
-    "com.proyecto26.restclient": {
-      "version": "https://github.com/proyecto26/RestClient.git#upm",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.rsg.promise": "3.0.1"
-      },
-      "hash": "6b1fff42acda809d14be9305eb1c510fc99893e7"
-    },
-    "com.rsg.promise": {
-      "version": "3.0.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://package.openupm.com"
-    },
     "com.unity.2d.animation": {
       "version": "7.0.9",
       "depth": 1,

@@ -11,8 +11,6 @@
   "dependencies": {
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.3.3",
     "com.metafab.sdk": "https://github.com/MetaFabInc/metafab-csharp-unity.git",
-    "com.proyecto26.restclient": "https://github.com/proyecto26/RestClient.git#upm",
-    "com.rsg.promise": "3.0.1",
     "com.unity.collab-proxy": "2.0.0",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.rider": "3.0.18",
