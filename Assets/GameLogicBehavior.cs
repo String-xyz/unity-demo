@@ -12,7 +12,11 @@ public class GameLogicBehavior : MonoBehaviour
     // These will be passed into our String package
     private string playerWallet;
     private string playerDecryptKey;
+
+    // Storing data from our String package for convenience
     private string stringPlayerID;
+    private TransactionRequest lastQuote;
+    private TransactionResponse lastTransaction;
 
     // Start is called before the first frame update
     async UniTaskVoid Start()
@@ -57,7 +61,7 @@ public class GameLogicBehavior : MonoBehaviour
         //playerDecryptKey = auth.walletDecryptKey;
 
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.1675dac185674375a69b7fabcd3cabc1";
+        StringXYZ.ApiKey = "str.4efebe2a16e84336b0feec7f9238a663";
     }
 
     // Update is called once per frame
@@ -81,8 +85,8 @@ public class GameLogicBehavior : MonoBehaviour
         Debug.Log($"Wallet Login Payload: {payloadToSign}");
 
         LoginRequest login = new LoginRequest(
-            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogelNVVmxBNkwwc3F2VU50OU5pYVlmVzJyaG5odWVUcWpOelpGdFpxbU14T2ZRb1R2eTlGQnlCcnh2YTBNWDNvTmFTb1dzQ2JzdXRWQWNvUGZWeWFqWVRNT2pQMm1USUJEblRocWQwT2dIUEdodDVEZURtRFJzQ3RrLzFHWW12OD0=",
-            signature: "0xb256447369ac45b1b61caf6f9fa93a66a1c184285bf630bdab26cc36dc0fdda45b569ed26b8fff5a19f53417ac149a51fad869a47e6f9d199c2e5cd644d1a51a01",
+            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogeVZrUUV1VUhXYzBqSmZkZ0RiTnBpenB0SjVScU9lZnBxdG9GbGRxN2ZRUGJRdkRPbFFDSU11d2hxU2tESWphTGZWL2pPdGRtMDlSSFVVM1lqcXVreU1TeksxdVoyb3lLQ29JRHUrL2czeFhGL3o3cmhnelc4TW9OSExoSlowUT0=",
+            signature: "0x930c72c924ddf41278d725dd9c0541acb8dd72ebf9a38682d9c145263c7211d801965cbb8ebeb6ecf77c709e41eaa60e0eca48b4981d0f245848dd358787b61101",
             visitorId: "dle6eqRHxjPEj4H3WLoC",
             requestId: "1671054875232.EcrKjS"
         );
@@ -96,7 +100,7 @@ public class GameLogicBehavior : MonoBehaviour
     {
         QuoteRequest quoteRequest = new QuoteRequest(
             userAddress: "0x44A4b9E2A69d86BA382a511f845CbF2E31286770",
-            chainId: 43113,
+            chainID: 43113,
             contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
             contractFunction: "mintTo(address)",
             contractReturn: "uint256",
@@ -105,6 +109,14 @@ public class GameLogicBehavior : MonoBehaviour
             gasLimit: "800000");
         var quoteResponse = await StringXYZ.Quote(quoteRequest);
         Debug.Log($"Quote Response: {quoteResponse}");
+        lastQuote = quoteResponse;
+    }
+
+    public async void ExecuteLastQuote()
+    {
+        var txResponse = await StringXYZ.Transact(lastQuote);
+        Debug.Log($"TX Response: {txResponse}");
+        lastTransaction = txResponse;
     }
 
 }

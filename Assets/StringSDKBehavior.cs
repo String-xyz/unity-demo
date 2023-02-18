@@ -105,7 +105,7 @@ namespace StringSDK
     public class QuoteRequest
     {
         public string userAddress;
-        public int chainId;
+        public int chainID;
         public string contractAddress;
         public string contractFunction;
         public string contractReturn;
@@ -113,10 +113,10 @@ namespace StringSDK
         public string txValue;
         public string gasLimit;
 
-        public QuoteRequest(string userAddress, int chainId, string contractAddress, string contractFunction, string contractReturn, string[] contractParameters, string txValue, string gasLimit)
+        public QuoteRequest(string userAddress, int chainID, string contractAddress, string contractFunction, string contractReturn, string[] contractParameters, string txValue, string gasLimit)
         {
             this.userAddress = userAddress;
-            this.chainId = chainId;
+            this.chainID = chainID;
             this.contractAddress = contractAddress;
             this.contractFunction = contractFunction;
             this.contractReturn = contractReturn;
@@ -135,7 +135,7 @@ namespace StringSDK
     public class TransactionRequest
     {
         public string userAddress;
-        public int chainId;
+        public int chainID;
         public string contractAddress;
         public string contractFunction;
         public string contractReturn;

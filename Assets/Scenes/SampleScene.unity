@@ -160,8 +160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 37.988113, y: -154.91338}
-  m_SizeDelta: {x: 235.9763, y: 32.4675}
+  m_AnchoredPosition: {x: 107.835815, y: -156.8258}
+  m_SizeDelta: {x: 375.6716, y: 32.833}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368610856
 MonoBehaviour:
@@ -209,7 +209,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1310627643}
         m_TargetAssemblyTypeName: GameLogicBehavior, Assembly-CSharp
-        m_MethodName: LoginPlayerToString
+        m_MethodName: ExecuteLastQuote
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Do Next Thing
+  m_text: Get EVM Quote
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Do First Thing
+  m_text: Log In / Create User
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -804,7 +804,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Do Other Thing
+  m_text: Execute Transaction
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1053,8 +1053,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 37.9881, y: -1.2338028}
-  m_SizeDelta: {x: 235.9763, y: 32.4675}
+  m_AnchoredPosition: {x: 107.8358, y: -1.4164963}
+  m_SizeDelta: {x: 375.6716, y: 32.833}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1259883453
 MonoBehaviour:
@@ -1244,8 +1244,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 37.988113, y: -232.83543}
-  m_SizeDelta: {x: 235.9763, y: 32.4675}
+  m_AnchoredPosition: {x: 107.835815, y: -235.62491}
+  m_SizeDelta: {x: 375.6716, y: 32.833}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1692750342
 MonoBehaviour:
@@ -1483,8 +1483,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 37.988113, y: -72.66233}
-  m_SizeDelta: {x: 235.9763, y: 32.4675}
+  m_AnchoredPosition: {x: 107.835815, y: -73.64899}
+  m_SizeDelta: {x: 375.6716, y: 32.833}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1780300790
 MonoBehaviour:
