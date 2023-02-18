@@ -1532,7 +1532,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1310627643}
         m_TargetAssemblyTypeName: GameLogicBehavior, Assembly-CSharp
-        m_MethodName: LoginPlayerToString
+        m_MethodName: GetQuoteFromString
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -77,23 +77,34 @@ public class GameLogicBehavior : MonoBehaviour
         // stringPlayerID = credentials.user.id;
 
         // TESTING
-        StringXYZ.ApiKey = "str.1675dac185674375a69b7fabcd3cabc1";
         LoginPayload payloadToSign = await StringXYZ.RequestLogin("0x44A4b9E2A69d86BA382a511f845CbF2E31286770");
-        Debug.Log($"Wallet Login Payload: {payloadToSign.nonce}");
+        Debug.Log($"Wallet Login Payload: {payloadToSign}");
 
-        Fingerprint fingerprint = new Fingerprint();
-        fingerprint.requestId = "1671054875232.EcrKjS";
-        fingerprint.visitorId = "dle6eqRHxjPEj4H3WLoC";
-
-        LoginRequest login = new LoginRequest();
-        login.nonce = "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogWjBUVlZVUHNOVDNleGcwZFJSM2pOdDlybGRCS0c4QjFEYjQ2cVF6MGowdHhqdzh1WU1SNlpmaWxlcmV0anZsVnBTekhLdUxveC9yVzNhM25ra0hqZENQdTZXQzVQeEtsNGxMUmJxaldEV1YwWkFXbFdveDBJc3FNZE15Qkw1WT0=";
-        login.signature = "0xba89b5ef3ee5f2190940f3e9ca4767b161dcc833dfade27f1fdafbf1527c1e711df8b8a140a4c65a2b8e4a1c40aee11ca17f7c60c648092fa303c9fd00faa8dc00";
-        login.fingerprint = fingerprint;
-        //login.fingerprint.requestId = "1671054875232.EcrKjS";
-        //login.fingerprint.visitorId = "dle6eqRHxjPEj4H3WLoC";
+        LoginRequest login = new LoginRequest(
+            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogelNVVmxBNkwwc3F2VU50OU5pYVlmVzJyaG5odWVUcWpOelpGdFpxbU14T2ZRb1R2eTlGQnlCcnh2YTBNWDNvTmFTb1dzQ2JzdXRWQWNvUGZWeWFqWVRNT2pQMm1USUJEblRocWQwT2dIUEdodDVEZURtRFJzQ3RrLzFHWW12OD0=",
+            signature: "0xb256447369ac45b1b61caf6f9fa93a66a1c184285bf630bdab26cc36dc0fdda45b569ed26b8fff5a19f53417ac149a51fad869a47e6f9d199c2e5cd644d1a51a01",
+            visitorId: "dle6eqRHxjPEj4H3WLoC",
+            requestId: "1671054875232.EcrKjS"
+        );
 
         var response = await StringXYZ.Login(login);
-        Debug.Log($"Bad login response = {response}");
+        Debug.Log($"Login response = {response}");
+        StringXYZ.Authorization = response.authToken.token;
+    }
+
+    public async void GetQuoteFromString()
+    {
+        QuoteRequest quoteRequest = new QuoteRequest(
+            userAddress: "0x44A4b9E2A69d86BA382a511f845CbF2E31286770",
+            chainId: 43113,
+            contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
+            contractFunction: "mintTo(address)",
+            contractReturn: "uint256",
+            contractParameters: new string[] { "0x44a4b9E2A69d86BA382a511f845CbF2E31286770" },
+            txValue: "0.08 eth",
+            gasLimit: "800000");
+        var quoteResponse = await StringXYZ.Quote(quoteRequest);
+        Debug.Log($"Quote Response: {quoteResponse}");
     }
 
 }

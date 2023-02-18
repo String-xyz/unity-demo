@@ -32,6 +32,8 @@ namespace StringSDK
             set => apiClient.headers["Authorization"] = value;
         }
 
+
+
         // Constructor
         static StringXYZ()
         {
@@ -110,11 +112,36 @@ namespace StringSDK
         public string[] contractParameters;
         public string txValue;
         public string gasLimit;
+
+        public QuoteRequest(string userAddress, int chainId, string contractAddress, string contractFunction, string contractReturn, string[] contractParameters, string txValue, string gasLimit)
+        {
+            this.userAddress = userAddress;
+            this.chainId = chainId;
+            this.contractAddress = contractAddress;
+            this.contractFunction = contractFunction;
+            this.contractReturn = contractReturn;
+            this.contractParameters = contractParameters;
+            this.txValue = txValue;
+            this.gasLimit = gasLimit;
+        }
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
-    public class TransactionRequest : QuoteRequest
+    public class TransactionRequest
     {
+        public string userAddress;
+        public int chainId;
+        public string contractAddress;
+        public string contractFunction;
+        public string contractReturn;
+        public string[] contractParameters;
+        public string txValue;
+        public string gasLimit;
         public int timestamp;
         public float baseUSD;
         public float gasUSD;
@@ -123,6 +150,11 @@ namespace StringSDK
         public float totalUSD;
         public string signature;
         public string cardToken;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -130,12 +162,22 @@ namespace StringSDK
     {
         public string txID;
         public string txUrl;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
     public class LoginPayload
     {
         public string nonce;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -144,6 +186,18 @@ namespace StringSDK
         public string nonce;
         public string signature;
         public Fingerprint fingerprint;
+
+        public LoginRequest(string nonce, string signature, string visitorId, string requestId)
+        {
+            this.nonce = nonce;
+            this.signature = signature;
+            fingerprint = new Fingerprint(visitorId, requestId);
+        }
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -151,6 +205,17 @@ namespace StringSDK
     {
         public string visitorId;
         public string requestId;
+
+        public Fingerprint(string visitorId, string requestId)
+        {
+            this.visitorId = visitorId;
+            this.requestId = requestId;
+        }
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -158,6 +223,11 @@ namespace StringSDK
     {
         public AuthToken authToken;
         public User user;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -167,6 +237,11 @@ namespace StringSDK
         public string issuedAt;
         public string token;
         public RefreshToken refreshToken;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -174,6 +249,11 @@ namespace StringSDK
     {
         public string token;
         public string expAt;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -188,6 +268,11 @@ namespace StringSDK
         public string firstName;
         public string middleName;
         public string lastName;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
@@ -197,12 +282,30 @@ namespace StringSDK
         public string firstName;
         public string middleName;
         public string lastName;
+
+        public UserNameRequest(string walletAddress, string firstName, string middleName, string lastName)
+        {
+            this.walletAddress = walletAddress;
+            this.firstName = firstName;
+            this.middleName = middleName;
+            this.lastName = lastName;
+        }
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
     [Serializable]
     public class UserStatusResponse
     {
         public string status;
+
+        public override string ToString()
+        {
+            return JsonUtility.ToJson(this);
+        }
     }
 
 }
