@@ -143,11 +143,11 @@ namespace StringSDK
         public string txValue;
         public string gasLimit;
         public int timestamp;
-        public float baseUSD;
-        public float gasUSD;
-        public float tokenUSD;
-        public float serviceUSD;
-        public float totalUSD;
+        public double baseUSD;
+        public double gasUSD;
+        public double tokenUSD;
+        public double serviceUSD;
+        public double totalUSD;
         public string signature;
         public string cardToken;
 

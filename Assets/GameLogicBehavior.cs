@@ -85,8 +85,8 @@ public class GameLogicBehavior : MonoBehaviour
         Debug.Log($"Wallet Login Payload: {payloadToSign}");
 
         LoginRequest login = new LoginRequest(
-            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogeVZrUUV1VUhXYzBqSmZkZ0RiTnBpenB0SjVScU9lZnBxdG9GbGRxN2ZRUGJRdkRPbFFDSU11d2hxU2tESWphTGZWL2pPdGRtMDlSSFVVM1lqcXVreU1TeksxdVoyb3lLQ29JRHUrL2czeFhGL3o3cmhnelc4TW9OSExoSlowUT0=",
-            signature: "0x930c72c924ddf41278d725dd9c0541acb8dd72ebf9a38682d9c145263c7211d801965cbb8ebeb6ecf77c709e41eaa60e0eca48b4981d0f245848dd358787b61101",
+            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogTW1oV0JyamFlVmI0U21pSjAwUk85MytwWFE2T0V5UmlHYkMzZmM5eC9jUVBZMy9Yb2VBR3Axbmc4bXJ2UnUxbFFzOFhtcU5SWDZXVVdKV2dQaXBsdFFBdWs2ejBIL2Vld0N1ZDNkQlFPT0NXZzhyYjlaZXl1MXV4di9VRVUzbz0=",
+            signature: "0x50ec59ce5c48a8e36af35d95481bd14535f95ec8f42753015dd27bf525b7d462304638ff146b0428cdfc8880613868f53a17d0f0d0968fa615af3c142570d2eb00",
             visitorId: "dle6eqRHxjPEj4H3WLoC",
             requestId: "1671054875232.EcrKjS"
         );
