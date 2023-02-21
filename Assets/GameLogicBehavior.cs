@@ -11,6 +11,7 @@ public class GameLogicBehavior : MonoBehaviour
 {
     // These will be passed into our String package
     private string playerWallet;
+    private string playerWalletID;
     private string playerDecryptKey;
 
     // Storing data from our String package for convenience
@@ -58,7 +59,8 @@ public class GameLogicBehavior : MonoBehaviour
         // Store the information we need about the player to be passed into our String package
         // AuthPlayer response will be updated tomorrow, we can get the decrypt key then.
         playerWallet = auth.wallet.address;
-        //playerDecryptKey = auth.walletDecryptKey;
+        playerWalletID = auth.wallet.id;
+        playerDecryptKey = auth.walletDecryptKey;
 
         // Initialize the string SDK with our API key
         StringXYZ.ApiKey = "str.4efebe2a16e84336b0feec7f9238a663";
@@ -72,21 +74,33 @@ public class GameLogicBehavior : MonoBehaviour
 
     public async void LoginPlayerToString()
     {
-        //LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
-        //Debug.Log($"Wallet Login Payload: {payloadToSign.nonce}");
+        // Real
 
-        // string signedPayload = await Metafab.GenerateSignature(..., payloadToSign);
-        // LoginResponse credentials = await StringXYZ.Login(signedPayload);
-        // StringXYZ.Authorization = credentials.authToken.token;
-        // stringPlayerID = credentials.user.id;
+        //LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
+        //Debug.Log($"Wallet Login Payload: {payloadToSign}");
+
+        ////Metafab.PlayerDecryptKey = playerDecryptKey; // This doesn't work yet.
+        //CreateWalletSignatureRequest signatureRequest = new(payloadToSign.nonce);
+        //string signedPayload = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, signatureRequest);
+
+        //LoginRequest login = new LoginRequest(
+        //    nonce: payloadToSign.nonce,
+        //    signature: signedPayload,
+        //    visitorId: "dle6eqRHxjPEj4H3WLoC",
+        //    requestId: "1671054875232.EcrKjS"
+        //);
+
+        //var response = await StringXYZ.Login(login);
+        //Debug.Log($"Login response = {response}");
+        //StringXYZ.Authorization = response.authToken.token;
 
         // TESTING
         LoginPayload payloadToSign = await StringXYZ.RequestLogin("0x44A4b9E2A69d86BA382a511f845CbF2E31286770");
         Debug.Log($"Wallet Login Payload: {payloadToSign}");
 
         LoginRequest login = new LoginRequest(
-            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZTogTW1oV0JyamFlVmI0U21pSjAwUk85MytwWFE2T0V5UmlHYkMzZmM5eC9jUVBZMy9Yb2VBR3Axbmc4bXJ2UnUxbFFzOFhtcU5SWDZXVVdKV2dQaXBsdFFBdWs2ejBIL2Vld0N1ZDNkQlFPT0NXZzhyYjlaZXl1MXV4di9VRVUzbz0=",
-            signature: "0x50ec59ce5c48a8e36af35d95481bd14535f95ec8f42753015dd27bf525b7d462304638ff146b0428cdfc8880613868f53a17d0f0d0968fa615af3c142570d2eb00",
+            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZToga3FCam5MeHlHTk5rVG9GcnU4MWJUNnZwcGttRGdhTnZRSlcyOVhsMXIwZlJZY0tHaHp4M0dxbWNjQjA2eFVuNGlFUUdCbTVDYXBZNmNlUTV1cmM3WXg4amsxbUxGWE1NQ25meUkzdW9ZZTJDVFFEbGNETzFESmRwZEFnMDkrWT0=",
+            signature: "0x573aa11f2833bb03b9847a00551f585583c094ef1189fb7a160b51278a5a9c770f0396ab88fb6424ed6998c83cd4c6f8e5030a902cb2f271107a4fb25b4b843300",
             visitorId: "dle6eqRHxjPEj4H3WLoC",
             requestId: "1671054875232.EcrKjS"
         );
