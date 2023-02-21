@@ -76,31 +76,17 @@ public class GameLogicBehavior : MonoBehaviour
     {
         // Real
 
-        //LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
-        //Debug.Log($"Wallet Login Payload: {payloadToSign}");
-
-        ////Metafab.PlayerDecryptKey = playerDecryptKey; // This doesn't work yet.
-        //CreateWalletSignatureRequest signatureRequest = new(payloadToSign.nonce);
-        //string signedPayload = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, signatureRequest);
-
-        //LoginRequest login = new LoginRequest(
-        //    nonce: payloadToSign.nonce,
-        //    signature: signedPayload,
-        //    visitorId: "dle6eqRHxjPEj4H3WLoC",
-        //    requestId: "1671054875232.EcrKjS"
-        //);
-
-        //var response = await StringXYZ.Login(login);
-        //Debug.Log($"Login response = {response}");
-        //StringXYZ.Authorization = response.authToken.token;
-
-        // TESTING
-        LoginPayload payloadToSign = await StringXYZ.RequestLogin("0x44A4b9E2A69d86BA382a511f845CbF2E31286770");
+        LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
         Debug.Log($"Wallet Login Payload: {payloadToSign}");
 
+        ////Metafab.PlayerDecryptKey = playerDecryptKey; // This doesn't work yet.
+        Metafab.Password = "password"; // Temporary hack to get around SDK missing header
+        CreateWalletSignatureRequest signatureRequest = new(payloadToSign.nonce);
+        string signedPayload = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, signatureRequest);
+
         LoginRequest login = new LoginRequest(
-            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZToga3FCam5MeHlHTk5rVG9GcnU4MWJUNnZwcGttRGdhTnZRSlcyOVhsMXIwZlJZY0tHaHp4M0dxbWNjQjA2eFVuNGlFUUdCbTVDYXBZNmNlUTV1cmM3WXg4amsxbUxGWE1NQ25meUkzdW9ZZTJDVFFEbGNETzFESmRwZEFnMDkrWT0=",
-            signature: "0x573aa11f2833bb03b9847a00551f585583c094ef1189fb7a160b51278a5a9c770f0396ab88fb6424ed6998c83cd4c6f8e5030a902cb2f271107a4fb25b4b843300",
+            nonce: payloadToSign.nonce,
+            signature: signedPayload,
             visitorId: "dle6eqRHxjPEj4H3WLoC",
             requestId: "1671054875232.EcrKjS"
         );
@@ -108,6 +94,21 @@ public class GameLogicBehavior : MonoBehaviour
         var response = await StringXYZ.Login(login);
         Debug.Log($"Login response = {response}");
         StringXYZ.Authorization = response.authToken.token;
+
+        // TESTING
+        //LoginPayload payloadToSign = await StringXYZ.RequestLogin("0x44A4b9E2A69d86BA382a511f845CbF2E31286770");
+        //Debug.Log($"Wallet Login Payload: {payloadToSign}");
+
+        //LoginRequest login = new LoginRequest(
+        //    nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZToga3FCam5MeHlHTk5rVG9GcnU4MWJUNnZwcGttRGdhTnZRSlcyOVhsMXIwZlJZY0tHaHp4M0dxbWNjQjA2eFVuNGlFUUdCbTVDYXBZNmNlUTV1cmM3WXg4amsxbUxGWE1NQ25meUkzdW9ZZTJDVFFEbGNETzFESmRwZEFnMDkrWT0=",
+        //    signature: "0x573aa11f2833bb03b9847a00551f585583c094ef1189fb7a160b51278a5a9c770f0396ab88fb6424ed6998c83cd4c6f8e5030a902cb2f271107a4fb25b4b843300",
+        //    visitorId: "dle6eqRHxjPEj4H3WLoC",
+        //    requestId: "1671054875232.EcrKjS"
+        //);
+
+        //var response = await StringXYZ.Login(login);
+        //Debug.Log($"Login response = {response}");
+        //StringXYZ.Authorization = response.authToken.token;
     }
 
     public async void GetQuoteFromString()

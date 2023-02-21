@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8db34de749dd54f30b3ab269fc9a7298, type: 3}
   m_Name: Metafab
   m_EditorClassIdentifier: 
-  PublishedKey: game_pk_jKCkNF9V8AQ2WdUMN898uyMN_Grv9MapFs18KDmYBXVrCwn_pvvFgyQqgKDf69Ri
-  SecretKey: game_sk_0HdEPGZ1KaNjNf926vbdTcPUTKLASzR5bfeK2Qhl7llAVGH9GS7q1ul6tdBV081C
-  Email: sean@string.xyz
-  Password: Osabic555
+  PublishedKey: 
+  SecretKey: 
+  Email: 
+  Password: 
   LogLevel: 0
