@@ -5,53 +5,19 @@ using MetafabSdk;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Linq;
-using Proyecto26;
-
-// JSON Serializations
-[Serializable]
-public class QuoteRequest
-{
-    public string userAddress;
-    public int chainId;
-    public string contractAddress;
-    public string contractFunction;
-    public string contractReturn;
-    public string[] contractParameters;
-    public string txValue;
-    public string gasLimit;
-}
-
-[Serializable]
-public class TransactionRequest : QuoteRequest
-{
-    public int timestamp;
-    public float baseUSD;
-    public float gasUSD;
-    public float tokenUSD;
-    public float serviceUSD;
-    public float totalUSD;
-    public string signature;
-    public string cardToken;
-}
-
-[Serializable]
-public class TransactionResponse
-{
-    public string txID;
-    public string txUrl;
-}
-
-[Serializable]
-public class LoginPayload
-{
-    public string nonce;
-}
+using StringSDK;
 
 public class GameLogicBehavior : MonoBehaviour
 {
     // These will be passed into our String package
     private string playerWallet;
+    private string playerWalletID;
     private string playerDecryptKey;
+
+    // Storing data from our String package for convenience
+    private string stringPlayerID;
+    private TransactionRequest lastQuote;
+    private TransactionResponse lastTransaction;
 
     // Start is called before the first frame update
     async UniTaskVoid Start()
@@ -93,7 +59,11 @@ public class GameLogicBehavior : MonoBehaviour
         // Store the information we need about the player to be passed into our String package
         // AuthPlayer response will be updated tomorrow, we can get the decrypt key then.
         playerWallet = auth.wallet.address;
-        //playerDecryptKey = auth.walletDecryptKey;
+        playerWalletID = auth.wallet.id;
+        playerDecryptKey = auth.walletDecryptKey;
+
+        // Initialize the string SDK with our API key
+        StringXYZ.ApiKey = "str.4efebe2a16e84336b0feec7f9238a663";
     }
 
     // Update is called once per frame
@@ -102,21 +72,66 @@ public class GameLogicBehavior : MonoBehaviour
         
     }
 
-    // Tomorrow this can be updated to fully log in, by requesting the payload, signing it and then storing the JWT
-
-    //async UniTaskVoid GetStringLogin(string walletAddr)
-    public void GetStringLogin()
+    public async void LoginPlayerToString()
     {
-        // We might pass this in instead
-        string walletAddr = playerWallet;
+        // Real
 
-        // Set API key
-        RestClient.DefaultRequestHeaders["X-Api-Key"] = "str.384be86c18d64b7783c2c4c9132bbd89";
+        //LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
+        //Debug.Log($"Wallet Login Payload: {payloadToSign}");
 
-        string base_url = "http://localhost:5555";
-        RestClient.Get<LoginPayload>($"{base_url}/login?walletAddress={walletAddr}").Then(response =>
-        {
-            Debug.Log($"Wallet Login Payload: {response.nonce}");
-        });
+        //////Metafab.PlayerDecryptKey = playerDecryptKey; // This doesn't work yet.
+        //Metafab.Password = "password"; // Temporary hack to get around SDK missing header
+        //CreateWalletSignatureRequest signatureRequest = new(payloadToSign.nonce);
+        //string signedPayload = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, signatureRequest);
+
+        //LoginRequest login = new LoginRequest(
+        //    nonce: payloadToSign.nonce,
+        //    signature: signedPayload,
+        //    visitorId: "dle6eqRHxjPEj4H3WLoC",
+        //    requestId: "1671054875232.EcrKjS"
+        //);
+
+        //var response = await StringXYZ.Login(login);
+        //Debug.Log($"Login response = {response}");
+        //StringXYZ.Authorization = response.authToken.token;
+
+        // TESTING
+        LoginPayload payloadToSign = await StringXYZ.RequestLogin("0x44A4b9E2A69d86BA382a511f845CbF2E31286770");
+        Debug.Log($"Wallet Login Payload: {payloadToSign}");
+
+        LoginRequest login = new LoginRequest(
+            nonce: "VGhhbmsgeW91IGZvciB1c2luZyBTdHJpbmchIEJ5IHNpZ25pbmcgdGhpcyBtZXNzYWdlIHlvdSBhcmU6CgoxKSBBdXRob3JpemluZyBTdHJpbmcgdG8gaW5pdGlhdGUgb2ZmLWNoYWluIHRyYW5zYWN0aW9ucyBvbiB5b3VyIGJlaGFsZiwgaW5jbHVkaW5nIHlvdXIgYmFuayBhY2NvdW50LCBjcmVkaXQgY2FyZCwgb3IgZGViaXQgY2FyZC4KCjIpIENvbmZpcm1pbmcgdGhhdCB0aGlzIHdhbGxldCBpcyBvd25lZCBieSB5b3UuCgpUaGlzIHJlcXVlc3Qgd2lsbCBub3QgdHJpZ2dlciBhbnkgYmxvY2tjaGFpbiB0cmFuc2FjdGlvbiBvciBjb3N0IGFueSBnYXMuCgpOb25jZToga3FCam5MeHlHTk5rVG9GcnU4MWJUNnZwcGttRGdhTnZRSlcyOVhsMXIwZlJZY0tHaHp4M0dxbWNjQjA2eFVuNGlFUUdCbTVDYXBZNmNlUTV1cmM3WXg4amsxbUxGWE1NQ25meUkzdW9ZZTJDVFFEbGNETzFESmRwZEFnMDkrWT0=",
+            signature: "0x573aa11f2833bb03b9847a00551f585583c094ef1189fb7a160b51278a5a9c770f0396ab88fb6424ed6998c83cd4c6f8e5030a902cb2f271107a4fb25b4b843300",
+            visitorId: "dle6eqRHxjPEj4H3WLoC",
+            requestId: "1671054875232.EcrKjS"
+        );
+
+        var response = await StringXYZ.Login(login);
+        Debug.Log($"Login response = {response}");
+        StringXYZ.Authorization = response.authToken.token;
     }
+
+    public async void GetQuoteFromString()
+    {
+        QuoteRequest quoteRequest = new QuoteRequest(
+            userAddress: "0x44A4b9E2A69d86BA382a511f845CbF2E31286770",
+            chainID: 43113,
+            contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
+            contractFunction: "mintTo(address)",
+            contractReturn: "uint256",
+            contractParameters: new string[] { "0x44a4b9E2A69d86BA382a511f845CbF2E31286770" },
+            txValue: "0.08 eth",
+            gasLimit: "800000");
+        var quoteResponse = await StringXYZ.Quote(quoteRequest);
+        Debug.Log($"Quote Response: {quoteResponse}");
+        lastQuote = quoteResponse;
+    }
+
+    public async void ExecuteLastQuote()
+    {
+        var txResponse = await StringXYZ.Transact(lastQuote);
+        Debug.Log($"TX Response: {txResponse}");
+        lastTransaction = txResponse;
+    }
+
 }
