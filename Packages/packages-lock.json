@@ -219,6 +219,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "xyz.string.sdk": {
+      "version": "https://github.com/String-xyz/unity-sdk.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "867471bb611951f4caa05d8099767a03f769ee81"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
