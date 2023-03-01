@@ -6,10 +6,11 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Linq;
 using StringSDK;
+using MetaMask.Unity;
 
 public class GameLogicBehavior : MonoBehaviour
 {
-    // These will be passed into our String package
+    // These Metafab vars will be passed into our String package
     private string playerWallet;
     private string playerWalletID;
     private string playerDecryptKey;
@@ -19,9 +20,14 @@ public class GameLogicBehavior : MonoBehaviour
     private TransactionRequest lastQuote;
     private TransactionResponse lastTransaction;
 
+    // Metamask vars
+    private MetaMask.MetaMaskWallet metaMaskWallet;
+
     // Start is called before the first frame update
     async UniTaskVoid Start()
     {
+        // Metafab stuff: //////////////////////////
+
         // Simulate Authing the Game with Metafab
         Debug.Log("Authing game with MetaFab...");
         var response = await Metafab.GamesApi.AuthGame(Config.Email, Config.Password, default);
@@ -62,6 +68,29 @@ public class GameLogicBehavior : MonoBehaviour
         playerWalletID = auth.wallet.id;
         playerDecryptKey = auth.walletDecryptKey;
 
+        // End Metafab Stuff //////////////////////////
+
+        // MetaMask Stuff: //////////////////////////
+
+        // This could be moved to an Init Metamask button event
+        // Init singleton client
+        MetaMaskUnity.Instance.Initialize();
+
+        // Get handle to wallet
+        metaMaskWallet = MetaMaskUnity.Instance.Wallet;
+
+        // Connect wallet
+        metaMaskWallet.Connect();
+
+        // Subscribe our handler to wallet connection event
+        metaMaskWallet.WalletConnected += OnWalletConnected;
+
+        // Subscribe our handler to wallet authorization event
+        metaMaskWallet.WalletAuthorized += OnWalletAuthorized;
+
+
+        // End MetaMask Stuff //////////////////////////
+
         // Initialize the string SDK with our API key
         StringXYZ.ApiKey = "str.4efebe2a16e84336b0feec7f9238a663";
     }
@@ -70,6 +99,16 @@ public class GameLogicBehavior : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnWalletConnected(object sender, EventArgs e)
+    {
+        Debug.Log($"Wallet {metaMaskWallet.SelectedAddress} is connected");
+    }
+
+    void OnWalletAuthorized(object sender, EventArgs e)
+    {
+        Debug.Log($"Wallet {metaMaskWallet.SelectedAddress} is authorized");
     }
 
     public async void LoginPlayerToString()
