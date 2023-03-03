@@ -94,7 +94,7 @@ public class GameLogicBehavior : MonoBehaviour
         {
             // Create a player if one doesn't exist
             CreatePlayerRequest createRequest = new("sample-player", "password");
-            await Metafab.PlayersApi.CreatePlayer(createRequest);
+            await Metafab.PlayersApi.CreatePlayer(createRequest, 0);
 
             players = await Metafab.PlayersApi.GetPlayers();
             player = players[players.Count - 1];
@@ -108,7 +108,7 @@ public class GameLogicBehavior : MonoBehaviour
 
         // Simulate that player logging in with their credentials
         Debug.Log($"Authing player...");
-        var auth = await Metafab.PlayersApi.AuthPlayer("sample-player", "password");
+        var auth = await Metafab.PlayersApi.AuthPlayer("sample-player", "password", 0);
         Debug.Log($"Got auth {auth}");
 
         // Store the information we need about the player to be passed into our String package
