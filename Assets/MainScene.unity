@@ -295,8 +295,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 89.02693, y: -256.88373}
-  m_SizeDelta: {x: 349.7255, y: 33.0655}
+  m_AnchoredPosition: {x: 172, y: -243}
+  m_SizeDelta: {x: 256.4128, y: 62.5648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &368610856
 MonoBehaviour:
@@ -1382,8 +1382,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 89.027, y: -190.75}
-  m_SizeDelta: {x: 349.7255, y: 33.0655}
+  m_AnchoredPosition: {x: 171.99997, y: -117.865326}
+  m_SizeDelta: {x: 256.4128, y: 62.5648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1259883453
 MonoBehaviour:
@@ -1619,8 +1619,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 89.0269, y: -6.1204}
-  m_SizeDelta: {x: 349.7255, y: 33.0655}
+  m_AnchoredPosition: {x: 42.371, y: -54.426}
+  m_SizeDelta: {x: 256.4128, y: 62.5648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1692750342
 MonoBehaviour:
@@ -1860,8 +1860,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 89.027, y: -223.82}
-  m_SizeDelta: {x: 349.7255, y: 33.0655}
+  m_AnchoredPosition: {x: 171.99997, y: -180.43857}
+  m_SizeDelta: {x: 256.4128, y: 62.5648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1780300790
 MonoBehaviour:
@@ -1994,8 +1994,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17125, y: 0.6777067}
   m_AnchorMax: {x: 0.17125, y: 0.6777067}
-  m_AnchoredPosition: {x: 438.7509, y: -6.1204}
-  m_SizeDelta: {x: 349.7255, y: 33.0655}
+  m_AnchoredPosition: {x: 298.78, y: -54.426}
+  m_SizeDelta: {x: 256.4128, y: 62.5648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1865696304
 MonoBehaviour:
@@ -2043,7 +2043,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1310627643}
         m_TargetAssemblyTypeName: GameLogicBehavior, Assembly-CSharp
-        m_MethodName: InitializeMetaMask
+        m_MethodName: InitializeMetaFab
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

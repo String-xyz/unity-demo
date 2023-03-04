@@ -18,7 +18,6 @@ public class GameLogicBehavior : MonoBehaviour
     // These Metafab vars will be passed into our String package
     private string playerWallet;
     private string playerWalletID;
-    private string playerDecryptKey;
 
     // Storing data from our String package for convenience
     private string stringPlayerID;
@@ -32,7 +31,7 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.808cdf201d1a4b8189e4b1be1bdedef6";
+        StringXYZ.ApiKey = "str.d5f47fb041554135a89038e469d5a762";
     }
 
     // Update is called once per frame
@@ -70,7 +69,7 @@ public class GameLogicBehavior : MonoBehaviour
         metaMaskWallet.WalletAuthorized += OnWalletAuthorized;
     }
 
-    public async UniTaskVoid InitializeMetaFab()
+    public async void InitializeMetaFab()
     {
         usingMetaFab = true;
 
@@ -115,7 +114,8 @@ public class GameLogicBehavior : MonoBehaviour
         // AuthPlayer response will be updated tomorrow, we can get the decrypt key then.
         playerWallet = auth.wallet.address;
         playerWalletID = auth.wallet.id;
-        playerDecryptKey = auth.walletDecryptKey;
+
+        //Metafab. = auth.walletDecryptKey;
     }
 
     public async void LoginPlayerToString()
@@ -130,28 +130,6 @@ public class GameLogicBehavior : MonoBehaviour
             walletAddr = metaMaskWallet.SelectedAddress;
         }
 
-        // Real
-
-        //LoginPayload payloadToSign = await StringXYZ.RequestLogin(playerWallet);
-        //Debug.Log($"Wallet Login Payload: {payloadToSign}");
-
-        //////Metafab.PlayerDecryptKey = playerDecryptKey; // This doesn't work yet.
-        //Metafab.Password = "password"; // Temporary hack to get around SDK missing header
-        //CreateWalletSignatureRequest signatureRequest = new(payloadToSign.nonce);
-        //string signedPayload = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, signatureRequest);
-
-        //LoginRequest login = new LoginRequest(
-        //    nonce: payloadToSign.nonce,
-        //    signature: signedPayload,
-        //    visitorId: "dle6eqRHxjPEj4H3WLoC",
-        //    requestId: "1671054875232.EcrKjS"
-        //);
-
-        //var response = await StringXYZ.Login(login);
-        //Debug.Log($"Login response = {response}");
-        //StringXYZ.Authorization = response.authToken.token;
-
-        // TESTING
         LoginPayload payloadToSign = await StringXYZ.RequestLogin(walletAddr);
         Debug.Log($"Wallet Login Payload: {payloadToSign}");
 
@@ -161,7 +139,20 @@ public class GameLogicBehavior : MonoBehaviour
         string sig = "";
         if (usingMetaFab)
         {
-            sig = "forget about it";
+            var request = new CreateWalletSignatureRequest(base64decode);
+            try
+            {
+                var headers = new Dictionary<string, string>
+                {
+                    ["X-Wallet-Decrypt-Key"] = Metafab.WalletDecryptKey
+                };
+                sig = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, request, default, headers);
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"ERROR = {e}");
+                return;
+            }
         }
         else
         {
@@ -173,9 +164,10 @@ public class GameLogicBehavior : MonoBehaviour
                 Parameters = parameters
             };
             var res = await metaMaskWallet.Request(request);
-            Debug.Log($"SIGNATURE RESPONSE = {res}");
             sig = res.GetString();
         }
+        Debug.Log($"SIGNATURE RESPONSE = {sig}");
+
 
         LoginRequest login = new LoginRequest(
             nonce: payloadToSign.nonce,
@@ -193,7 +185,7 @@ public class GameLogicBehavior : MonoBehaviour
     {
         QuoteRequest quoteRequest = new QuoteRequest(
             userAddress: "0x44A4b9E2A69d86BA382a511f845CbF2E31286770",
-            chainID: 43113,
+            chainId: 43113,
             contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
             contractFunction: "mintTo(address)",
             contractReturn: "uint256",
