@@ -12,7 +12,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "b1dc71e9523fd46520e64bc6a5dfefb40685eb1d"
+      "hash": "62616c123fcc454ec0ac1219d45dac1a8d829c2a"
     },
     "com.unity.2d.animation": {
       "version": "7.0.9",
@@ -164,6 +164,13 @@
     "com.unity.mathematics": {
       "version": "1.2.6",
       "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.0.2",
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
