@@ -115,7 +115,7 @@ public class GameLogicBehavior : MonoBehaviour
         playerWallet = auth.wallet.address;
         playerWalletID = auth.wallet.id;
 
-        //Metafab. = auth.walletDecryptKey;
+        Metafab.WalletDecryptKey = auth.walletDecryptKey;
     }
 
     public async void LoginPlayerToString()
@@ -142,11 +142,12 @@ public class GameLogicBehavior : MonoBehaviour
             var request = new CreateWalletSignatureRequest(base64decode);
             try
             {
-                var headers = new Dictionary<string, string>
-                {
-                    ["X-Wallet-Decrypt-Key"] = Metafab.WalletDecryptKey
-                };
-                sig = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, request, default, headers);
+                //var headers = new Dictionary<string, string>
+                //{
+                //    ["X-Wallet-Decrypt-Key"] = Metafab.WalletDecryptKey
+                //};
+                var res = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, request);
+                sig = res.signature;
             }
             catch (Exception e)
             {
