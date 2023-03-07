@@ -142,10 +142,6 @@ public class GameLogicBehavior : MonoBehaviour
             var request = new CreateWalletSignatureRequest(base64decode);
             try
             {
-                //var headers = new Dictionary<string, string>
-                //{
-                //    ["X-Wallet-Decrypt-Key"] = Metafab.WalletDecryptKey
-                //};
                 var res = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, request);
                 sig = res.signature;
             }
