@@ -115,7 +115,7 @@ public class GameLogicBehavior : MonoBehaviour
         playerWallet = auth.wallet.address;
         playerWalletID = auth.wallet.id;
 
-        //Metafab. = auth.walletDecryptKey;
+        Metafab.WalletDecryptKey = auth.walletDecryptKey;
     }
 
     public async void LoginPlayerToString()
@@ -142,11 +142,8 @@ public class GameLogicBehavior : MonoBehaviour
             var request = new CreateWalletSignatureRequest(base64decode);
             try
             {
-                var headers = new Dictionary<string, string>
-                {
-                    ["X-Wallet-Decrypt-Key"] = Metafab.WalletDecryptKey
-                };
-                sig = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, request, default, headers);
+                var res = await Metafab.WalletsApi.CreateWalletSignature(playerWalletID, request);
+                sig = res.signature;
             }
             catch (Exception e)
             {
@@ -171,9 +168,7 @@ public class GameLogicBehavior : MonoBehaviour
 
         LoginRequest login = new LoginRequest(
             nonce: payloadToSign.nonce,
-            signature: sig,
-            visitorId: "dle6eqRHxjPEj4H3WLoC",
-            requestId: "1671054875232.EcrKjS"
+            signature: sig
         );
 
         var response = await StringXYZ.Login(login);
@@ -183,13 +178,23 @@ public class GameLogicBehavior : MonoBehaviour
 
     public async void GetQuoteFromString()
     {
+        string walletAddr;
+        if (usingMetaFab)
+        {
+            walletAddr = playerWallet;
+        }
+        else
+        {
+            walletAddr = metaMaskWallet.SelectedAddress;
+        }
+
         QuoteRequest quoteRequest = new QuoteRequest(
-            userAddress: "0x44A4b9E2A69d86BA382a511f845CbF2E31286770",
+            userAddress: walletAddr,
             chainId: 43113,
             contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
             contractFunction: "mintTo(address)",
             contractReturn: "uint256",
-            contractParameters: new string[] { "0x44a4b9E2A69d86BA382a511f845CbF2E31286770" },
+            contractParameters: new string[] { walletAddr },
             txValue: "0.08 eth",
             gasLimit: "800000");
         var quoteResponse = await StringXYZ.Quote(quoteRequest);
