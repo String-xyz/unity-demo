@@ -18,6 +18,14 @@ public class GameLogicBehavior : MonoBehaviour
     public UnityEngine.UI.Button buttonLogin;
     public UnityEngine.UI.Button buttonGetQuote;
     public UnityEngine.UI.Button buttonExecute;
+    public UnityEngine.UI.Button buttonSubmitUserData;
+
+    // Used to input Player Name and Email
+    public TMPro.TMP_InputField inputFirstName;
+    public TMPro.TMP_InputField inputMiddleName;
+    public TMPro.TMP_InputField inputLastName;
+    public TMPro.TMP_InputField inputEmail;
+
 
     // Message box
     public TMPro.TextMeshProUGUI messageBox;
@@ -47,6 +55,12 @@ public class GameLogicBehavior : MonoBehaviour
         buttonLogin.interactable = false;
         buttonGetQuote.interactable = false;
         buttonExecute.interactable = false;
+
+        buttonSubmitUserData.interactable = false;
+        inputFirstName.interactable = false;
+        inputMiddleName.interactable = false;
+        inputLastName.interactable = false;
+        inputEmail.interactable = false;
     }
 
     // Update is called once per frame
@@ -199,7 +213,17 @@ public class GameLogicBehavior : MonoBehaviour
 
         var response = await StringXYZ.Login(login);
         Debug.Log($"Login response = {response}");
+
         StringXYZ.Authorization = response.authToken.token;
+
+        stringPlayerID = response.user.id;
+        if (response.user.status == "unverified")
+        {
+            VerifyUser();
+            return;
+        }
+
+        PopulateUserData(response.user);
 
         buttonGetQuote.interactable = true;
         messageBox.SetText("You are now logged in to StringPay!  You may now request a Quote using the button below.");
@@ -246,6 +270,49 @@ public class GameLogicBehavior : MonoBehaviour
         Debug.Log($"TX Response: {txResponse}");
         lastTransaction = txResponse;
         messageBox.SetText("Transaction: [" + lastTransaction.txUrl + "].  Thank you for using StringPay!");
+    }
+
+    private void VerifyUser()
+    {
+        messageBox.SetText("Welcome to StringPay!  Please provide your Name and Email in the fields below and press 'Submit'");
+        buttonSubmitUserData.interactable = true;
+        inputFirstName.interactable = true;
+        inputMiddleName.interactable = true;
+        inputLastName.interactable = true;
+        inputEmail.interactable = true;
+    }
+
+    private void PopulateUserData(User user)
+    {
+        inputFirstName.text = user.firstName;
+        inputMiddleName.text = user.middleName;
+        inputLastName.text = user.lastName;
+        inputEmail.text = user.status;
+    }
+
+    public async void SubmitNameAndEmail()
+    {
+        string walletAddr;
+        if (usingMetaFab)
+        {
+            walletAddr = playerWallet;
+        }
+        else
+        {
+            walletAddr = metaMaskWallet.SelectedAddress;
+        }
+
+        var usernameRequest = new UserNameRequest(walletAddr, inputFirstName.text, inputMiddleName.text, inputLastName.text);
+        var user = await StringXYZ.SetUserName(usernameRequest, stringPlayerID);
+
+        messageBox.SetText("Please check your email inbox for a verification from StringPay and click the link provided to continue!");
+        await StringXYZ.RequestEmailAuth(inputEmail.text, stringPlayerID);
+
+        buttonSubmitUserData.interactable = false;
+        inputFirstName.interactable = false;
+        inputMiddleName.interactable = false;
+        inputLastName.interactable = false;
+        inputEmail.interactable = false;
     }
 
     public void Msg(string msg)
