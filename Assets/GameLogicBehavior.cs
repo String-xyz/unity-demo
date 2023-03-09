@@ -49,7 +49,7 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.95c67a3a05cb4849a6d9fd8231c0a813";
+        StringXYZ.ApiKey = "str.0866e0862cab4f0ab82831d9b19cdeb2";
 
         // Disable buttons we shouldn't press yet
         buttonLogin.interactable = false;
@@ -307,13 +307,13 @@ public class GameLogicBehavior : MonoBehaviour
         var user = await StringXYZ.SetUserName(usernameRequest, stringPlayerID);
 
         messageBox.SetText("Please check your email inbox for a verification from StringPay and click the link provided to continue!");
-        await StringXYZ.RequestEmailAuth(inputEmail.text, stringPlayerID);
 
         buttonSubmitUserData.interactable = false;
         inputFirstName.interactable = false;
         inputMiddleName.interactable = false;
         inputLastName.interactable = false;
         inputEmail.interactable = false;
+        buttonGetQuote.interactable = true;
     }
 
     public void Msg(string msg)
