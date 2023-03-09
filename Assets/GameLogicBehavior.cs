@@ -49,7 +49,7 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.d5f47fb041554135a89038e469d5a762";
+        StringXYZ.ApiKey = "str.95c67a3a05cb4849a6d9fd8231c0a813";
 
         // Disable buttons we shouldn't press yet
         buttonLogin.interactable = false;
@@ -76,6 +76,9 @@ public class GameLogicBehavior : MonoBehaviour
 
     void OnWalletAuthorized(object sender, EventArgs e)
     {
+        // Allow next step
+        buttonLogin.interactable = true;
+
         Debug.Log($"MetaMask Wallet was Authorized by the Player");
         messageBox.SetText("Application was authorized by your MetaMask wallet! You may now Log In to StringPay using the button below.  If you are new to StringPay, an account will automatically be created when you log in.");
     }
@@ -98,9 +101,6 @@ public class GameLogicBehavior : MonoBehaviour
 
         // Subscribe our handler to wallet authorization event
         metaMaskWallet.WalletAuthorized += OnWalletAuthorized;
-
-        // Allow next step
-        buttonLogin.interactable = true;
 
         messageBox.SetText("MetaMask has been initialized, please open the application on your phone and scan the QR code to continue.");
     }
@@ -167,6 +167,7 @@ public class GameLogicBehavior : MonoBehaviour
         }
         else
         {
+            messageBox.SetText("Please confirm on the MetaMask app that you authorize your login to StringPay.");
             walletAddr = metaMaskWallet.SelectedAddress;
         }
 
