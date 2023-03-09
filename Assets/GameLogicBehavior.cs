@@ -26,7 +26,6 @@ public class GameLogicBehavior : MonoBehaviour
     public TMPro.TMP_InputField inputLastName;
     public TMPro.TMP_InputField inputEmail;
 
-
     // Message box
     public TMPro.TextMeshProUGUI messageBox;
 
