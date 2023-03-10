@@ -12,6 +12,23 @@ using System.Text;
 
 public class GameLogicBehavior : MonoBehaviour
 {
+    // Used to activate / deactivate buttons
+    public UnityEngine.UI.Button buttonInitMetaMask;
+    public UnityEngine.UI.Button buttonInitMetaFab;
+    public UnityEngine.UI.Button buttonLogin;
+    public UnityEngine.UI.Button buttonGetQuote;
+    public UnityEngine.UI.Button buttonExecute;
+    public UnityEngine.UI.Button buttonSubmitUserData;
+
+    // Used to input Player Name and Email
+    public TMPro.TMP_InputField inputFirstName;
+    public TMPro.TMP_InputField inputMiddleName;
+    public TMPro.TMP_InputField inputLastName;
+    public TMPro.TMP_InputField inputEmail;
+
+    // Message box
+    public TMPro.TextMeshProUGUI messageBox;
+
     // Used to determine where we derive the wallet data from
     private bool usingMetaFab;
 
@@ -31,7 +48,18 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.d5f47fb041554135a89038e469d5a762";
+        StringXYZ.ApiKey = "str.0866e0862cab4f0ab82831d9b19cdeb2";
+
+        // Disable buttons we shouldn't press yet
+        buttonLogin.interactable = false;
+        buttonGetQuote.interactable = false;
+        buttonExecute.interactable = false;
+
+        buttonSubmitUserData.interactable = false;
+        inputFirstName.interactable = false;
+        inputMiddleName.interactable = false;
+        inputLastName.interactable = false;
+        inputEmail.interactable = false;
     }
 
     // Update is called once per frame
@@ -42,11 +70,16 @@ public class GameLogicBehavior : MonoBehaviour
     void OnWalletConnected(object sender, EventArgs e)
     {
         Debug.Log($"MetaMask Connected to Player Wallet");
+        messageBox.SetText("Wallet connected!  You will receive a confirmation dialog on your phone to authorize this application.  Please accept it to continue.");
     }
 
     void OnWalletAuthorized(object sender, EventArgs e)
     {
+        // Allow next step
+        buttonLogin.interactable = true;
+
         Debug.Log($"MetaMask Wallet was Authorized by the Player");
+        messageBox.SetText("Application was authorized by your MetaMask wallet! You may now Log In to StringPay using the button below.  If you are new to StringPay, an account will automatically be created when you log in.");
     }
 
     public void InitializeMetaMask()
@@ -67,6 +100,8 @@ public class GameLogicBehavior : MonoBehaviour
 
         // Subscribe our handler to wallet authorization event
         metaMaskWallet.WalletAuthorized += OnWalletAuthorized;
+
+        messageBox.SetText("MetaMask has been initialized, please open the application on your phone and scan the QR code to continue.");
     }
 
     public async void InitializeMetaFab()
@@ -116,6 +151,10 @@ public class GameLogicBehavior : MonoBehaviour
         playerWalletID = auth.wallet.id;
 
         Metafab.WalletDecryptKey = auth.walletDecryptKey;
+
+        // Allow next step
+        buttonLogin.interactable = true;
+        messageBox.SetText("MetaFab was initialized, you may now Log In to StringPay using the button below. If you are new to StringPay, an account will automatically be created when you log in.");
     }
 
     public async void LoginPlayerToString()
@@ -127,6 +166,7 @@ public class GameLogicBehavior : MonoBehaviour
         }
         else
         {
+            messageBox.SetText("Please confirm on the MetaMask app that you authorize your login to StringPay.");
             walletAddr = metaMaskWallet.SelectedAddress;
         }
 
@@ -173,7 +213,20 @@ public class GameLogicBehavior : MonoBehaviour
 
         var response = await StringXYZ.Login(login);
         Debug.Log($"Login response = {response}");
+
         StringXYZ.Authorization = response.authToken.token;
+
+        stringPlayerID = response.user.id;
+        if (response.user.status == "unverified")
+        {
+            VerifyUser();
+            return;
+        }
+
+        PopulateUserData(response.user);
+
+        buttonGetQuote.interactable = true;
+        messageBox.SetText("You are now logged in to StringPay!  You may now request a Quote using the button below.");
     }
 
     public async void GetQuoteFromString()
@@ -200,13 +253,70 @@ public class GameLogicBehavior : MonoBehaviour
         var quoteResponse = await StringXYZ.Quote(quoteRequest);
         Debug.Log($"Quote Response: {quoteResponse}");
         lastQuote = quoteResponse;
+
+        buttonExecute.interactable = true;
+        var quoteString = "\nBase Cost: $" + lastQuote.baseUSD +
+                          "\nToken Cost: $" + lastQuote.tokenUSD +
+                          "\nGas Cost: $" + lastQuote.gasUSD +
+                          "\nService Cost: $" + lastQuote.serviceUSD +
+                          "\nTotal Cost: $" + lastQuote.totalUSD;
+        messageBox.SetText("Got quote: " + quoteString + "\nThis quote expires in 15 seconds.  You may have StringPay execute the transaction using the button below.");
     }
 
     public async void ExecuteLastQuote()
     {
+        buttonExecute.interactable = false;
         var txResponse = await StringXYZ.Transact(lastQuote);
         Debug.Log($"TX Response: {txResponse}");
         lastTransaction = txResponse;
+        messageBox.SetText("Transaction: [" + lastTransaction.txUrl + "].  Thank you for using StringPay!");
     }
 
+    private void VerifyUser()
+    {
+        messageBox.SetText("Welcome to StringPay!  Please provide your Name and Email in the fields below and press 'Submit'");
+        buttonSubmitUserData.interactable = true;
+        inputFirstName.interactable = true;
+        inputMiddleName.interactable = true;
+        inputLastName.interactable = true;
+        inputEmail.interactable = true;
+    }
+
+    private void PopulateUserData(User user)
+    {
+        inputFirstName.text = user.firstName;
+        inputMiddleName.text = user.middleName;
+        inputLastName.text = user.lastName;
+        inputEmail.text = user.status;
+    }
+
+    public async void SubmitNameAndEmail()
+    {
+        string walletAddr;
+        if (usingMetaFab)
+        {
+            walletAddr = playerWallet;
+        }
+        else
+        {
+            walletAddr = metaMaskWallet.SelectedAddress;
+        }
+
+        var usernameRequest = new UserNameRequest(walletAddr, inputFirstName.text, inputMiddleName.text, inputLastName.text);
+        var user = await StringXYZ.SetUserName(usernameRequest, stringPlayerID);
+
+        messageBox.SetText("Please check your email inbox for a verification from StringPay and click the link provided to continue!");
+
+        buttonSubmitUserData.interactable = false;
+        inputFirstName.interactable = false;
+        inputMiddleName.interactable = false;
+        inputLastName.interactable = false;
+        inputEmail.interactable = false;
+        buttonGetQuote.interactable = true;
+    }
+
+    public void Msg(string msg)
+    {
+        messageBox.SetText(msg);
+    }
 }
