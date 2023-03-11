@@ -265,6 +265,15 @@ public class GameLogicBehavior : MonoBehaviour
 
     public async void ExecuteLastQuote()
     {
+        if (StringXYZ.ReadyForPayment())
+        {
+            lastQuote.cardToken = StringXYZ.GetPaymentToken();
+        }
+        else
+        {
+            Debug.Log("Payment Token Not Available");
+            return;
+        }
         buttonExecute.interactable = false;
         var txResponse = await StringXYZ.Transact(lastQuote);
         Debug.Log($"TX Response: {txResponse}");
@@ -313,6 +322,11 @@ public class GameLogicBehavior : MonoBehaviour
         inputLastName.interactable = false;
         inputEmail.interactable = false;
         buttonGetQuote.interactable = true;
+    }
+
+    public void SubmitCard()
+    {
+        WebEventManager.SubmitCard();
     }
 
     public void Msg(string msg)
