@@ -215,7 +215,7 @@ public class GameLogicBehavior : MonoBehaviour
         Debug.Log($"Login response = {response}");
 
         StringXYZ.Authorization = response.authToken.token;
-
+        WebEventManager.InitIframe();
         stringPlayerID = response.user.id;
         if (response.user.status == "unverified")
         {
