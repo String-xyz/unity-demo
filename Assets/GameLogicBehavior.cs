@@ -48,7 +48,7 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.ec844011900b4411bdfce510e9eb9c3b";
+        StringXYZ.ApiKey = "str.d53058e9f49e4f92a73fc5f74a93b8c4";
 
         // Disable buttons we shouldn't press yet
         buttonLogin.interactable = false;
@@ -215,7 +215,7 @@ public class GameLogicBehavior : MonoBehaviour
         Debug.Log($"Login response = {response}");
 
         StringXYZ.Authorization = response.authToken.token;
-
+        WebEventManager.InitIframe();
         stringPlayerID = response.user.id;
         if (response.user.status == "unverified")
         {
