@@ -49,6 +49,7 @@ public class GameLogicBehavior : MonoBehaviour
     {
         // Initialize the string SDK with our API key
         StringXYZ.ApiKey = "str.ec844011900b4411bdfce510e9eb9c3b";
+        StringXYZ.Environment = StringXYZ.EnvironmentType.SANDBOX;
 
         // Disable buttons we shouldn't press yet
         buttonLogin.interactable = false;
@@ -211,7 +212,11 @@ public class GameLogicBehavior : MonoBehaviour
             signature: sig
         );
 
-        var response = await StringXYZ.Login(login);
+        LoginOptions options = new LoginOptions(
+            bypassDeviceCheck: true
+        );
+
+        var response = await StringXYZ.Login(login, options);
         Debug.Log($"Login response = {response}");
 
         StringXYZ.Authorization = response.authToken.token;
