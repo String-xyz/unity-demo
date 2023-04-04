@@ -212,11 +212,7 @@ public class GameLogicBehavior : MonoBehaviour
             signature: sig
         );
 
-        LoginOptions options = new LoginOptions(
-            bypassDeviceCheck: true
-        );
-
-        var response = await StringXYZ.Login(login, options);
+        var response = await StringXYZ.Login(login);
         Debug.Log($"Login response = {response}");
 
         StringXYZ.Authorization = response.authToken.token;
