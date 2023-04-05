@@ -49,7 +49,7 @@ public class GameLogicBehavior : MonoBehaviour
     {
         // Initialize the string SDK with our API key
         StringXYZ.ApiKey = "str.d3912505e8bc40969ee430e628905bcd";
-        StringXYZ.ENV = StringSDK.Environment.Types.LOCAL;
+        StringXYZ.Env = StringSDK.Config.Environment.LOCAL;
 
         // Disable buttons we shouldn't press yet
         buttonLogin.interactable = false;
@@ -111,14 +111,14 @@ public class GameLogicBehavior : MonoBehaviour
 
         // Simulate Authing the Game with Metafab
         Debug.Log("Authing game with MetaFab...");
-        var response = await Metafab.GamesApi.AuthGame(Config.Email, Config.Password, default);
+        var response = await Metafab.GamesApi.AuthGame(MetafabSdk.Config.Email, MetafabSdk.Config.Password, default);
         Debug.Log($"MetaFab Auth Response: {response}");
 
         // Metafab needs us to copy the response data
-        Config.PublishedKey = response.publishedKey;
-        Metafab.PublishedKey = Config.PublishedKey;
+        MetafabSdk.Config.PublishedKey = response.publishedKey;
+        Metafab.PublishedKey = MetafabSdk.Config.PublishedKey;
         Metafab.SecretKey = response.secretKey;
-        Metafab.Password = Config.Password;
+        Metafab.Password = MetafabSdk.Config.Password;
 
         // Simulate there being a player
         // get player and authenticate
