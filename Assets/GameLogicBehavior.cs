@@ -48,8 +48,8 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.ec844011900b4411bdfce510e9eb9c3b";
-        StringXYZ.Environment = StringXYZ.EnvironmentType.SANDBOX;
+        StringXYZ.ApiKey = "str.d3912505e8bc40969ee430e628905bcd";
+        StringXYZ.ENV = StringSDK.Environment.Types.LOCAL;
 
         // Disable buttons we shouldn't press yet
         buttonLogin.interactable = false;
@@ -330,7 +330,7 @@ public class GameLogicBehavior : MonoBehaviour
 
     public void SubmitCard()
     {
-        WebEventManager.SubmitCard();
+        WebEventManager.SubmitCard(new("Cardholder Name"));
     }
 
     public void Msg(string msg)
