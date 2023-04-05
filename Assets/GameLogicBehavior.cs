@@ -48,8 +48,8 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.ec844011900b4411bdfce510e9eb9c3b";
-        StringXYZ.Environment = StringXYZ.EnvironmentType.SANDBOX;
+        StringXYZ.ApiKey = "str.d3912505e8bc40969ee430e628905bcd";
+        StringXYZ.Env = "http://localhost:5555";
 
         // Disable buttons we shouldn't press yet
         buttonLogin.interactable = false;
@@ -111,14 +111,14 @@ public class GameLogicBehavior : MonoBehaviour
 
         // Simulate Authing the Game with Metafab
         Debug.Log("Authing game with MetaFab...");
-        var response = await Metafab.GamesApi.AuthGame(Config.Email, Config.Password, default);
+        var response = await Metafab.GamesApi.AuthGame(MetafabSdk.Config.Email, MetafabSdk.Config.Password, default);
         Debug.Log($"MetaFab Auth Response: {response}");
 
         // Metafab needs us to copy the response data
-        Config.PublishedKey = response.publishedKey;
-        Metafab.PublishedKey = Config.PublishedKey;
+        MetafabSdk.Config.PublishedKey = response.publishedKey;
+        Metafab.PublishedKey = MetafabSdk.Config.PublishedKey;
         Metafab.SecretKey = response.secretKey;
-        Metafab.Password = Config.Password;
+        Metafab.Password = MetafabSdk.Config.Password;
 
         // Simulate there being a player
         // get player and authenticate
@@ -330,7 +330,7 @@ public class GameLogicBehavior : MonoBehaviour
 
     public void SubmitCard()
     {
-        WebEventManager.SubmitCard();
+        WebEventManager.SubmitCard(new("Cardholder Name"));
     }
 
     public void Msg(string msg)
