@@ -48,7 +48,7 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.d3912505e8bc40969ee430e628905bcd";
+        StringXYZ.ApiKey = "str.8c1eba8738e24c60a8f1989aea3f8bd1";
         StringXYZ.Env = "http://localhost:5555";
 
         // Disable buttons we shouldn't press yet
@@ -245,7 +245,7 @@ public class GameLogicBehavior : MonoBehaviour
         QuoteRequest quoteRequest = new QuoteRequest(
             userAddress: walletAddr,
             chainId: 43113,
-            contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
+            contractAddress: "0xea1ffe2cf6630a20e1ba397e95358daf362c8781",
             contractFunction: "mintTo(address)",
             contractReturn: "uint256",
             contractParameters: new string[] { walletAddr },
