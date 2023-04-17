@@ -48,7 +48,7 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.d3912505e8bc40969ee430e628905bcd";
+        StringXYZ.ApiKey = "str.3eb0df97dc794934b32ab5e3a0db6236";
         StringXYZ.Env = "http://localhost:5555";
 
         // Disable buttons we shouldn't press yet
@@ -246,7 +246,7 @@ public class GameLogicBehavior : MonoBehaviour
             userAddress: walletAddr,
             assetName: "String Avalanche NFT",
             chainId: 43113,
-            contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
+            contractAddress: "0xea1ffe2cf6630a20e1ba397e95358daf362c8781",
             contractFunction: "mintTo(address)",
             contractReturn: "uint256",
             contractParameters: new string[] { walletAddr },
@@ -255,7 +255,7 @@ public class GameLogicBehavior : MonoBehaviour
         var quoteResponse = await StringXYZ.Quote(transactionRequest);
         Debug.Log($"Quote Response: {quoteResponse}");
         lastQuote = quoteResponse;
-        estimate = lastQuote.estimate;
+        var estimate = lastQuote.estimate;
 
         buttonExecute.interactable = true;
         var quoteString = "\nBase Cost: $" + estimate.baseUSD +
@@ -270,10 +270,8 @@ public class GameLogicBehavior : MonoBehaviour
     {
         ExecutionRequest executionRequest = new ExecutionRequest(
             quote: lastQuote,
-            paymentInfo: new PaymentInfo(
-                cardToken: "",
-            )
-        )
+            paymentInfo: new PaymentInfo()
+        );
         if (StringXYZ.ReadyForPayment())
         {
             executionRequest.paymentInfo.cardToken = StringXYZ.GetPaymentToken();
