@@ -38,7 +38,7 @@ public class GameLogicBehavior : MonoBehaviour
 
     // Storing data from our String package for convenience
     private string stringPlayerID;
-    private TransactionRequest lastQuote;
+    private Quote lastQuote;
     private TransactionResponse lastTransaction;
 
     // Metamask vars, not required
@@ -242,8 +242,9 @@ public class GameLogicBehavior : MonoBehaviour
             walletAddr = metaMaskWallet.SelectedAddress;
         }
 
-        QuoteRequest quoteRequest = new QuoteRequest(
+        TransactionRequest transactionRequest = new TransactionRequest(
             userAddress: walletAddr,
+            assetName: "String Avalanche NFT",
             chainId: 43113,
             contractAddress: "0x861aF9Ed4fEe884e5c49E9CE444359fe3631418B",
             contractFunction: "mintTo(address)",
@@ -251,24 +252,31 @@ public class GameLogicBehavior : MonoBehaviour
             contractParameters: new string[] { walletAddr },
             txValue: "0.08 eth",
             gasLimit: "800000");
-        var quoteResponse = await StringXYZ.Quote(quoteRequest);
+        var quoteResponse = await StringXYZ.Quote(transactionRequest);
         Debug.Log($"Quote Response: {quoteResponse}");
         lastQuote = quoteResponse;
+        estimate = lastQuote.estimate;
 
         buttonExecute.interactable = true;
-        var quoteString = "\nBase Cost: $" + lastQuote.baseUSD +
-                          "\nToken Cost: $" + lastQuote.tokenUSD +
-                          "\nGas Cost: $" + lastQuote.gasUSD +
-                          "\nService Cost: $" + lastQuote.serviceUSD +
-                          "\nTotal Cost: $" + lastQuote.totalUSD;
+        var quoteString = "\nBase Cost: $" + estimate.baseUSD +
+                          "\nToken Cost: $" + estimate.tokenUSD +
+                          "\nGas Cost: $" + estimate.gasUSD +
+                          "\nService Cost: $" + estimate.serviceUSD +
+                          "\nTotal Cost: $" + estimate.totalUSD;
         messageBox.SetText("Got quote: " + quoteString + "\nThis quote expires in 15 seconds.  You may have StringPay execute the transaction using the button below.");
     }
 
     public async void ExecuteLastQuote()
     {
+        ExecutionRequest executionRequest = new ExecutionRequest(
+            quote: lastQuote,
+            paymentInfo: new PaymentInfo(
+                cardToken: "",
+            )
+        )
         if (StringXYZ.ReadyForPayment())
         {
-            lastQuote.cardToken = StringXYZ.GetPaymentToken();
+            executionRequest.paymentInfo.cardToken = StringXYZ.GetPaymentToken();
         }
         else
         {
@@ -276,7 +284,7 @@ public class GameLogicBehavior : MonoBehaviour
             return;
         }
         buttonExecute.interactable = false;
-        var txResponse = await StringXYZ.Transact(lastQuote);
+        var txResponse = await StringXYZ.Transact(executionRequest);
         Debug.Log($"TX Response: {txResponse}");
         lastTransaction = txResponse;
         messageBox.SetText("Transaction: [" + lastTransaction.txUrl + "].  Thank you for using StringPay!");
