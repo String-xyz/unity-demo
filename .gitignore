@@ -69,3 +69,7 @@ UserSettings
 # Vuplex Meta
 Assets/Vuplex.meta
 mono_crash.mem.*
+
+# Testing receipts
+InitTestScene*.unity
+InitTestScene*.unity.meta
