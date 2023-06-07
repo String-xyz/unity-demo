@@ -48,7 +48,7 @@ public class GameLogicBehavior : MonoBehaviour
     void Start()
     {
         // Initialize the string SDK with our API key
-        StringXYZ.ApiKey = "str.08ea19601af34237b107b3e802fa0ed5";
+        StringXYZ.ApiKey = "str.069b1d4c777c4606af3bf893e49ecf6a";
         StringXYZ.Env = "http://localhost:5555";
 
         // Disable buttons we shouldn't press yet

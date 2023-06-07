@@ -55,14 +55,14 @@ public class LoginTest
     {
         var common = new StringTest();
         common.Setup();
-        await Task.Delay(2000);
+        await Task.Delay(5000);
 
         var payload = await StringXYZ.RequestLogin(common.playerWallet);
-        await Task.Delay(3000);
+        await Task.Delay(4000);
 
         var base64decode = Encoding.UTF8.GetString(Convert.FromBase64String(payload.nonce));
         var sig = await common.Sign(base64decode);
-        await Task.Delay(2000);
+        await Task.Delay(4000);
 
         LoginRequest login = new LoginRequest(
             nonce: payload.nonce,
@@ -70,7 +70,7 @@ public class LoginTest
         );
 
         var response = await StringXYZ.Login(login, true); // Bypass device for 
-        await Task.Delay(3000);
+        await Task.Delay(4000);
 
         Assert.AreNotEqual("", response.authToken.token);
 

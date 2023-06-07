@@ -176,7 +176,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.31",
+      "version": "1.1.33",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -227,11 +227,10 @@
       "url": "https://packages.unity.com"
     },
     "xyz.string.sdk": {
-      "version": "https://github.com/String-xyz/unity-sdk.git",
+      "version": "file:/Users/sean/dev/string/unity-sdk",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "0aa36da2ed9610aed8f8d630998b19541560570d"
+      "source": "local",
+      "dependencies": {}
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
