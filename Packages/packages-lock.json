@@ -227,10 +227,11 @@
       "url": "https://packages.unity.com"
     },
     "xyz.string.sdk": {
-      "version": "file:/Users/sean/dev/string/unity-sdk",
+      "version": "https://github.com/String-xyz/unity-sdk.git",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "583973d12a4914775708ae1f2289738e76971b0f"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
