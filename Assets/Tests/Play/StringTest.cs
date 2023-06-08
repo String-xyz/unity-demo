@@ -108,9 +108,7 @@ public class StringTest
 
     public static async UniTask<HttpResponse> PreValidateEmail(string emailAddr, string userId, CancellationToken token = default)
     {
-        PreValidateEmailRequest request = new();
-        request.email = emailAddr;
-        var result = await apiClient.Post<HttpResponse>($"/users/{userId}/email/pre-validate", request);
+        var result = await apiClient.Post<HttpResponse>($"/users/{userId}/email/pre-validate?email={emailAddr}");
         if (!result.IsSuccess)
         {
             Debug.Log($"PreValidateEmail returned error {result.errorMsg}");
