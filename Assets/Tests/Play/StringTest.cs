@@ -2,6 +2,7 @@
 using StringSDK;
 using MetafabSdk;
 using Cysharp.Threading.Tasks;
+using System.Threading;
 using System.Text;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -106,9 +107,9 @@ public class StringTest
         return 0;
     }
 
-    public static async UniTask<HttpResponse> PreValidateEmail(string emailAddr, string userId, CancellationToken token = default)
+    public async UniTask<StringSDK.HttpResponse> PreValidateEmail(string emailAddr, string userId, CancellationToken token = default)
     {
-        var result = await apiClient.Post<HttpResponse>($"/users/{userId}/email/pre-validate?email={emailAddr}");
+        var result = await StringXYZ.apiClient.Post<StringSDK.HttpResponse>($"/users/{userId}/email/pre-validate?email={emailAddr}");
         if (!result.IsSuccess)
         {
             Debug.Log($"PreValidateEmail returned error {result.errorMsg}");

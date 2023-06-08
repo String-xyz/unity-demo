@@ -101,7 +101,7 @@ public class UserTest
 
         await common.DoLogin();
         
-        var response = await StringXYZ.PreValidateEmail("albert123@mailinator.com", common.playerID);
+        var response = await common.PreValidateEmail("albert123@mailinator.com", common.playerID);
         await Task.Delay(3000);
 
         Assert.AreNotEqual(0, response.status);
