@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System;
 
-public class QuoteTest
+public class C_QuoteTest
 {
     [UnityTest]
     public IEnumerator Quote() => UniTask.ToCoroutine(async () =>

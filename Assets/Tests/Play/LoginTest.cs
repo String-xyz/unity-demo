@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System;
 
-public class LoginTest
+public class A_LoginTest
 {
     [UnityTest]
     public IEnumerator RequestLogin() => UniTask.ToCoroutine(async () =>

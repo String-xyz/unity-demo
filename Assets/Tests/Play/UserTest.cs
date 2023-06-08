@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System;
 
-public class UserTest
+public class B_UserTest
 {
     [UnityTest]
     public IEnumerator CreateUser() => UniTask.ToCoroutine(async () =>

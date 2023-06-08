@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System;
 
-public class CardsTest
+public class E_CardsTest
 {
     [UnityTest]
     public IEnumerator GetCards() => UniTask.ToCoroutine(async () =>
