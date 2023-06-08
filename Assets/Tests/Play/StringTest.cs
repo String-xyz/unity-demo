@@ -100,9 +100,21 @@ public class StringTest
     {
         if (stringUser.status == "unverified")
         {
-            await StringXYZ.PreValidateEmail("albert123@mailinator.com", playerID);
+            await PreValidateEmail("albert123@mailinator.com", playerID);
         }
 
         return 0;
+    }
+
+    public static async UniTask<HttpResponse> PreValidateEmail(string emailAddr, string userId, CancellationToken token = default)
+    {
+        PreValidateEmailRequest request = new();
+        request.email = emailAddr;
+        var result = await apiClient.Post<HttpResponse>($"/users/{userId}/email/pre-validate", request);
+        if (!result.IsSuccess)
+        {
+            Debug.Log($"PreValidateEmail returned error {result.errorMsg}");
+        }
+        return result.body;
     }
 }
