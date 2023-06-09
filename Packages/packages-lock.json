@@ -176,7 +176,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.31",
+      "version": "1.1.33",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -231,7 +231,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "0aa36da2ed9610aed8f8d630998b19541560570d"
+      "hash": "583973d12a4914775708ae1f2289738e76971b0f"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
